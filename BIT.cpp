@@ -16,7 +16,21 @@ class BIT {
     public:
         //the size must be less than 2^(64)
         BIT(int64 size){
-            this->tree = vector<int64>(size,0);
+            this->tree = vector<int64>(size+1,0);
+        }
+
+        int64 get_value(int64 index) {
+            return range_sum(index, index);
+        }
+
+        void range_update(int64 left_index, int64 right_index, int64 delta){
+            if(right_index < left_index){
+                return;
+            }
+            update(right_index, delta);
+            if(left_index - 1 > 0){
+                update(left_index-1, 0-delta);
+            }
         }
 
         //updates value at index by increasing it by delta
@@ -33,6 +47,7 @@ class BIT {
                 }
             }
         }
+
 
         //computes the prefix sum 0...i
         int64 prefix_sum(int64 index){
@@ -54,6 +69,13 @@ class BIT {
             }
             return prefix_sum(right_index) - prefix_sum(left_index-1);
         }
+
+        void print_array(){
+            for(int64 i=1; i <= this->tree.size()-1; i++){
+                cout << this->get_value(i) << " ";
+            }
+            cout << "\n";
+        }
 };
 
 int main(){
@@ -67,6 +89,7 @@ int main(){
     cout << test.range_sum(1,1) << " " << test.range_sum(2,40) << "\n";
     test.update(5, 40);
     cout << test.range_sum(1, 4) << " " <<  test.range_sum(1, 6) << " " << test.range_sum(5,49) << " " << test.range_sum(1, 49) << "\n";
+    test.print_array();
     
     return 0;
 }
