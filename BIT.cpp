@@ -22,7 +22,9 @@ class BIT {
         int64 get_value(int64 index) {
             return range_sum(index, index);
         }
-
+        
+        //This method is actually wrong. Do not use it. To do range_updates and range_sums
+        //two BITs are needed.
         void range_update(int64 left_index, int64 right_index, int64 delta){
             if(right_index < left_index){
                 return;
